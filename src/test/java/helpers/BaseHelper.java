@@ -13,19 +13,18 @@ import slack.Slack;
 import slack.SlackBlocksMessageBuilder;
 import slack.SlackChannel;
 import org.testng.asserts.SoftAssert;
+
 import java.time.Duration;
 
-public class BaseHelper
-{
+public class BaseHelper {
     protected static WebDriver driver = setUpChromeDriver();
     protected static WebDriverWait wdWait = new WebDriverWait(driver, Duration.ofSeconds(10));
     protected static JavascriptExecutor js = (JavascriptExecutor) driver;
     SlackBlocksMessageBuilder slackMessageBuilder = new SlackBlocksMessageBuilder();
     protected SoftAssert softAssertion = new SoftAssert();
-    protected void assertResult(String result, String assertText)
-    {
-        if (!result.contains(assertText))
-        {
+
+    protected void assertResult(String result, String assertText) {
+        if (!result.contains(assertText)) {
             slackMessageBuilder.setTitle(":x: " + assertText + " :x:");
             slackMessageBuilder.addMessageContent("Expected to find ", assertText);
             slackMessageBuilder.setUrl(driver.getCurrentUrl());
@@ -37,22 +36,25 @@ public class BaseHelper
         }
     }
 
-    public static WebElement returnElementAttValue (String attributeName, String attributeValue)
-    {
+    public static WebElement returnElementAttValue(String attributeName, String attributeValue) {
         String selector = "[" + attributeName + "=" + attributeValue + "]";
-    WebElement element = driver.findElement(By.cssSelector(selector));
-    return element;
+        WebElement element = driver.findElement(By.cssSelector(selector));
+        return element;
     }
 
-    protected static WebDriver setUpChromeDriver()
-    {
-        System.setProperty("webdriver.chrome.driver","/Users/tarikhalac/Desktop/javaSelenium/chromedriver");
+    protected static WebDriver setUpChromeDriver() {
+        System.setProperty("webdriver.chrome.driver", "/Users/tarikhalac/Desktop/repository-olx/OlxPageTesting/chromedriver");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--incognito");
         options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--disable-geolocation");
+        options.addArguments("--disable-popup-blocking");
+        options.addArguments("-–disable-notifications");
         ChromeDriver driver = new ChromeDriver(options);
         return driver;
     }
+
+
 
 
 }
